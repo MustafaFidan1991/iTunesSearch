@@ -3,6 +3,10 @@ package com.mustafafidan.itunessearch.di
 import android.content.Context
 import com.mustafafidan.itunessearch.constants.BASE_URL
 import com.mustafafidan.itunessearch.feature_search.data.data_source.remote.SearchService
+import com.mustafafidan.itunessearch.feature_search.data.repository.SearchRepositoryImpl
+import com.mustafafidan.itunessearch.feature_search.data.repository.remote.SearchRemoteRepositoryImpl
+import com.mustafafidan.itunessearch.feature_search.domain.repository.SearchRepository
+import com.mustafafidan.itunessearch.feature_search.domain.repository.remote.SearchRemoteRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -39,4 +43,14 @@ object NetworkModule {
         Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build())
+
+    @Provides
+    fun provideSearchRemoteRepository(searchService : SearchService): SearchRemoteRepository {
+        return SearchRemoteRepositoryImpl(searchService)
+    }
+
+    @Provides
+    fun provideSearchRepository(searchRemoteRepository : SearchRemoteRepository): SearchRepository {
+        return SearchRepositoryImpl(searchRemoteRepository)
+    }
 }

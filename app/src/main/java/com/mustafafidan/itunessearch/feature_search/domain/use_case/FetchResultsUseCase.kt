@@ -23,10 +23,12 @@ class FetchResultsMapper @Inject constructor(
     override fun mapFromResponse(type: ResultEntity?): ResultsUiModel {
         return ResultsUiModel(type?.results?.map {
             ResultUiModel(
+                id = it.trackId,
                 imageUrl = it.artworkUrl100,
                 price = "${it.collectionPrice} ${it.currency}",
                 name = it.collectionName,
-                date = dateFormatter.provideDate(it.releaseDate)
+                date = dateFormatter.provideDate(it.releaseDate),
+                isStreamable = it.isStreamable ?: false
             )
         })
     }

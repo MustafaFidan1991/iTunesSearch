@@ -22,4 +22,24 @@
     <style name="Theme.ITunesSearch.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.ITunesSearch.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TitleTextViewStyle" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/colorDarkText</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="DateTextViewStyle" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/colorDarkText</item>
+        <item name="android:textSize">@dimen/date_text_size</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+
+    <style name="PriceTextViewStyle" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/colorDarkText</item>
+        <item name="android:textSize">@dimen/price_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

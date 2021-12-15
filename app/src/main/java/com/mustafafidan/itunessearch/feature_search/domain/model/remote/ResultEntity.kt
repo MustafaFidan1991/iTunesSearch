@@ -7,7 +7,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ResultEntity(
     @Json(name = "resultCount")
-    val resultCount: Int,
+    val resultCount: Int?,
     @Json(name = "results")
     val results: List<Result>
 )

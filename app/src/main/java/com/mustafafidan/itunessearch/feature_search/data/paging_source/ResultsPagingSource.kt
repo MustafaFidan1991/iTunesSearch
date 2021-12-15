@@ -15,7 +15,7 @@ class ResultsPagingSource(
     ): LoadResult<Int, ResultUiModel> {
         return try {
             val offset = params.key ?: 0
-            when(val result = fetchResultsUseCase("micheal jackson")){
+            when(val result = fetchResultsUseCase("queen")){
                 is Success -> LoadResult.Page(
                     data = result.successData.results ?: listOf(),
                     prevKey = null,

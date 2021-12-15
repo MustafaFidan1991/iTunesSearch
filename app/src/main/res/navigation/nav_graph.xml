@@ -6,9 +6,9 @@
     android:id="@+id/nav_graph">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.mustafafidan.marvel.ui.home.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" >
+        android:name="com.mustafafidan.itunessearch.feature_search.presentation.search.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search" >
 
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
@@ -17,12 +17,9 @@
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.mustafafidan.marvel.ui.detail.DetailFragment"
+        android:name="com.mustafafidan.itunessearch.feature_search.presentation.detail.DetailFragment"
         android:label="DetailFragment"
         tools:layout="@layout/fragment_detail" >
 
-        <argument
-            android:name="character"
-            app:argType="com.mustafafidan.marvel.model.local.CharacterUiModel" />
     </fragment>
 </navigation>
