@@ -1,0 +1,51 @@
+ext {
+
+    versions = [
+            hiltVersion              : "2.38.1",
+            hiltExtensionVersion     : "1.0.0",
+            coroutinesVersion        : "1.5.2",
+            lifecycleVersion         : "2.4.0",
+            multidexVersion          : "2.0.1",
+            mockkVersion             : "1.12.0",
+            pagingVersion            : "3.0.1",
+            retrofitVersion          : "2.9.0",
+            moshiVersion             : "1.12.0",
+            okHttpVersion            : "4.9.0",
+            glideVersion             : "4.12.0"
+    ]
+
+    libraries = [
+            hilt              : "com.google.dagger:hilt-android:${versions.hiltVersion}",
+            hiltExtension     : "androidx.hilt:hilt-*:${versions.hiltExtensionVersion}",
+            coroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutinesVersion}",
+            liveDataKTX       : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycleVersion}",
+            multidex          : "androidx.multidex:multidex:${versions.multidexVersion}",
+            navigation        : [
+                    "androidx.navigation:navigation-fragment-ktx:$nav_version",
+                    "androidx.navigation:navigation-ui-ktx:$nav_version"
+            ],
+            retrofit          : [
+                    "com.squareup.retrofit2:retrofit:${versions.retrofitVersion}",
+                    "com.squareup.retrofit2:converter-moshi:${versions.retrofitVersion}"
+            ],
+            lifecycleFragment : "androidx.fragment:fragment-ktx:1.1.0",
+            mockk         : "io.mockk:mockk:${versions.mockkVersion}",
+            paging        : "androidx.paging:paging-runtime:${versions.pagingVersion}",
+            moshi             : [
+                    "com.squareup.moshi:moshi:${versions.moshiVersion}",
+                    "com.squareup.moshi:moshi-kotlin:${versions.moshiVersion}"
+            ],
+            okHttp            : [
+                    "com.squareup.okhttp3:okhttp:${versions.okHttpVersion}",
+                    "com.squareup.okhttp3:logging-interceptor:${versions.okHttpVersion}"
+            ],
+            glide             : "com.github.bumptech.glide:glide:${versions.glideVersion}"
+    ]
+
+    annotationProcessors = [
+            hiltCompiler  : "com.google.dagger:hilt-compiler:${versions.hiltVersion}",
+            moshi         : "com.squareup.moshi:moshi-kotlin-codegen:${versions.moshiVersion}",
+            glide         : "com.github.bumptech.glide:compiler:${versions.glideVersion}"
+    ]
+
+}
