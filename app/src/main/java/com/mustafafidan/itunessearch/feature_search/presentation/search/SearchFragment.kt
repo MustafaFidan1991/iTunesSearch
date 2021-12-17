@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.mustafafidan.itunessearch.common.finishRefreshing
 import com.mustafafidan.itunessearch.databinding.FragmentSearchBinding
 import com.mustafafidan.itunessearch.feature_search.presentation.search.adapter.ResultsAdapter
 import com.mustafafidan.itunessearch.feature_search.presentation.search.adapter.ResultsLoadingAdapter
@@ -38,11 +39,37 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         this.setRecyclerAdapter()
         this.updateAdapter()
         this.addStateListener()
+        this.observeSearchState()
+        this.observeRefreshAdapter()
+        this.setClearBtnClick()
     }
+
+    private fun setClearBtnClick(){
+        binding.searchBar.clearBtn.setOnClickListener {
+            binding.searchBar.searchEt.setText("")
+        }
+    }
+
+    private fun observeRefreshAdapter(){
+        lifecycleScope.launchWhenStarted {
+            searchViewModel.refreshAdapterState.collectLatest {
+                this@SearchFragment.onRefresh()
+                binding.swipeRefreshLayout.isRefreshing = true
+            }
+        }
+    }
+
+    private fun observeSearchState(){
+        lifecycleScope.launchWhenStarted {
+            searchViewModel.state.collectLatest {
+                binding.state = it
+            }
+        }
+    }
+    
     private fun setupUi(){
         binding.recyclerView.setHasFixedSize(true)
         binding.swipeRefreshLayout.isRefreshing = true
-
     }
 
     private fun setRecyclerAdapter(){
@@ -64,14 +91,8 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun addStateListener(){
         resultsAdapter.addLoadStateListener { loadState->
             if (!(loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading)){
-                this.finishRefreshing()
+                binding.swipeRefreshLayout.finishRefreshing()
             }
-        }
-    }
-
-    private fun finishRefreshing(){
-        if(binding.swipeRefreshLayout.isRefreshing) {
-            binding.swipeRefreshLayout.isRefreshing = false
         }
     }
 

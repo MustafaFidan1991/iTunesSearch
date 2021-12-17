@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <data></data>
+    <data>
+        <variable
+            name="state"
+            type="com.mustafafidan.itunessearch.feature_search.presentation.search.SearchState" />
+    </data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".feature_search.presentation.search.SearchFragment">
+
+        <include
+            app:state="@{state}"
+            android:id="@+id/searchBar"
+            layout="@layout/search_bar" />
+
+        <include
+            app:state="@{state}"
+            android:id="@+id/filterBar"
+            layout="@layout/filter_bar" />
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
@@ -19,5 +36,5 @@
                 app:spanCount="2"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    </FrameLayout>
+    </LinearLayout>
 </layout>

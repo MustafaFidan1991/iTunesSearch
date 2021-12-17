@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">iTunes Search</string>
     <string name="retry">Retry</string>
-    <string name="release_date">Release Date: %1s</string>
+    <string name="release_date">Date: %1s</string>
     <string name="add_to_cart">Add To Cart</string>
+    <string name="search">Search</string>
+    <string name="filter_movies">Movies</string>
+    <string name="filter_music">Music</string>
+    <string name="filter_apps">Apps</string>
+    <string name="filter_books">Books</string>
 </resources>

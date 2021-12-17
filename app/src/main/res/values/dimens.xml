@@ -4,4 +4,7 @@
     <dimen name="result_image_height">200dp</dimen>
     <dimen name="date_text_size">12sp</dimen>
     <dimen name="price_text_size">18sp</dimen>
+    <dimen name="filter_btn_height">30dp</dimen>
+    <dimen name="filter_btn_text_size">14sp</dimen>
+    <dimen name="filter_btn_margin">8dp</dimen>
 </resources>

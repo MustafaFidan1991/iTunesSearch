@@ -5,7 +5,7 @@ import com.mustafafidan.itunessearch.feature_search.domain.model.remote.ResultEn
 
 interface SearchRepository {
 
-    suspend fun getResults(term : String)  : Resource<ResultEntity>
+    suspend fun getResults(term : String,media : String,offset : Int)  : Resource<ResultEntity>
 
     fun getResultDetail()
 }

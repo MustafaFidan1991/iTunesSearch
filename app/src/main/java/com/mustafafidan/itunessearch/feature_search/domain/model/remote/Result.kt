@@ -33,9 +33,9 @@ data class Result(
     @Json(name = "collectionId")
     val collectionId: Int?,
     @Json(name = "collectionName")
-    val collectionName: String,
+    val collectionName: String?,
     @Json(name = "collectionPrice")
-    val collectionPrice: Double,
+    val collectionPrice: Double?,
     @Json(name = "collectionViewUrl")
     val collectionViewUrl: String?,
     @Json(name = "contentAdvisoryRating")
@@ -43,7 +43,7 @@ data class Result(
     @Json(name = "country")
     val country: String?,
     @Json(name = "currency")
-    val currency: String,
+    val currency: String?,
     @Json(name = "discCount")
     val discCount: Int?,
     @Json(name = "discNumber")

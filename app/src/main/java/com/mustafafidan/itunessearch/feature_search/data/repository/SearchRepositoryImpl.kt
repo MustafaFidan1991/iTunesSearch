@@ -7,7 +7,7 @@ class SearchRepositoryImpl(
     private val searchRemoteRepository: SearchRemoteRepository
 ) : SearchRepository {
 
-    override suspend fun getResults(term : String) = searchRemoteRepository.getResults(term)
+    override suspend fun getResults(term : String,media : String,offset : Int) = searchRemoteRepository.getResults(term,media,offset)
 
     override fun getResultDetail() {
 

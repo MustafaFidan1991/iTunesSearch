@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+
+        <variable
+            name="state"
+            type="com.mustafafidan.itunessearch.feature_search.presentation.search.SearchState" />
+
+        <import type="com.mustafafidan.itunessearch.feature_search.presentation.search.FilterMediaType"/>
+    </data>
+    <RadioGroup
+        android:padding="8dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:onCheckedChanged="@{(view,id) -> state.onFilterBtnCheckedChanged(view,FilterMediaType.MOVIES)}"
+            android:layout_marginStart="@dimen/filter_btn_margin"
+            android:layout_weight="1"
+            android:id="@+id/moviesBtn"
+            style="@style/FilterButtonStyle"
+            android:layout_width="wrap_content"
+            android:text="@string/filter_movies" />
+
+        <RadioButton
+            android:onCheckedChanged="@{(view,id) -> state.onFilterBtnCheckedChanged(view,FilterMediaType.MUSIC)}"
+            android:layout_marginStart="@dimen/filter_btn_margin"
+            android:layout_weight="1"
+            android:id="@+id/musicBtn"
+            style="@style/FilterButtonStyle"
+            android:layout_width="wrap_content"
+            android:text="@string/filter_music" />
+
+        <RadioButton
+            android:onCheckedChanged="@{(view,id) -> state.onFilterBtnCheckedChanged(view,FilterMediaType.APPS)}"
+            android:layout_marginStart="@dimen/filter_btn_margin"
+            android:layout_weight="1"
+            android:id="@+id/appsBtn"
+            style="@style/FilterButtonStyle"
+            android:layout_width="wrap_content"
+            android:text="@string/filter_apps" />
+
+        <RadioButton
+            android:onCheckedChanged="@{(view,id) -> state.onFilterBtnCheckedChanged(view,FilterMediaType.BOOKS)}"
+            android:layout_marginStart="@dimen/filter_btn_margin"
+            android:layout_marginEnd="@dimen/filter_btn_margin"
+            android:layout_weight="1"
+            android:id="@+id/booksBtn"
+            style="@style/FilterButtonStyle"
+            android:layout_width="wrap_content"
+            android:text="@string/filter_books" />
+    </RadioGroup>
+</layout>

@@ -14,19 +14,24 @@ class FetchResultsUseCase@Inject constructor(
     private val searchRepository: SearchRepository,
     private val mapper : FetchResultsMapper
 ) {
-    suspend operator fun invoke(term : String) = searchRepository.getResults(term).mapOnData { mapper.mapFromResponse(it) }
+    suspend operator fun invoke(term : String,media : String,offset : Int) = searchRepository.getResults(term,media,offset).mapOnData { mapper.mapFromResponse(it) }
 }
 
 class FetchResultsMapper @Inject constructor(
-    private val dateFormatter: DateFormatter
+    private val dateFormatter: DateFormatter,
+    private val currencyConverter: CurrencyConverter
 ) : Mapper<ResultEntity?, ResultsUiModel> {
     override fun mapFromResponse(type: ResultEntity?): ResultsUiModel {
         return ResultsUiModel(type?.results?.map {
             ResultUiModel(
                 id = it.trackId,
                 imageUrl = it.artworkUrl100,
-                price = "${it.collectionPrice} ${it.currency}",
-                name = it.collectionName,
+                price = if(it.collectionPrice == null){
+                    ""
+                }else {
+                    "${it.collectionPrice} ${currencyConverter.getCurrencyIcon(it.currency)}"
+                },
+                name = it.collectionName ?: "",
                 date = dateFormatter.provideDate(it.releaseDate),
                 isStreamable = it.isStreamable ?: false
             )
@@ -34,6 +39,13 @@ class FetchResultsMapper @Inject constructor(
     }
 }
 
+class CurrencyConverter @Inject constructor() {
+    fun getCurrencyIcon(currency : String?) =
+        when(currency){
+            "USD" -> "$"
+            else -> ""
+        }
+}
 
 class DateFormatter @Inject constructor(
     private val context: Context

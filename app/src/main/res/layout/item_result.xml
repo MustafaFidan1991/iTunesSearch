@@ -9,6 +9,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:layout_margin="4dp"
         app:cardElevation="2dp"
         app:cardCornerRadius="4dp"
         app:cardBackgroundColor="@color/white"
@@ -21,7 +22,7 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:id="@+id/appCompatImageView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/result_image_height"
@@ -42,6 +43,8 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:maxLines="1"
+                android:minLines="1"
                 android:id="@+id/textView"
                 style="@style/TitleTextViewStyle"
                 android:layout_width="0dp"
@@ -54,6 +57,8 @@
                 tools:text="The Essential Michael Jackson" />
 
             <TextView
+                android:maxLines="1"
+                android:minLines="1"
                 android:id="@+id/textView2"
                 style="@style/DateTextViewStyle"
                 android:layout_width="0dp"
@@ -66,6 +71,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <TextView
+                android:maxLines="1"
+                android:minLines="1"
                 android:id="@+id/textView3"
                 style="@style/PriceTextViewStyle"
                 android:layout_width="0dp"
