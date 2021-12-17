@@ -1,7 +1,7 @@
 package com.mustafafidan.itunessearch.feature_search.data.data_source.remote
 
 import com.mustafafidan.itunessearch.constants.PAGE_SIZE
-import com.mustafafidan.itunessearch.feature_search.domain.model.remote.ResultEntity
+import com.mustafafidan.itunessearch.feature_search.domain.model.remote.ResultResponseEntity
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -14,6 +14,6 @@ interface SearchService {
         @Query("offset") offset : Int,
         @Query("media") media : String? = null,
         @Query("limit") limit : Int = PAGE_SIZE
-    ) : Response<ResultEntity>
+    ) : Response<ResultResponseEntity>
 
 }

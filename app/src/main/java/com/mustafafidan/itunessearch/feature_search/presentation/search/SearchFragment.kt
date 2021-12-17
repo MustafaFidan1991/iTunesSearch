@@ -4,18 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.mustafafidan.itunessearch.common.finishRefreshing
 import com.mustafafidan.itunessearch.databinding.FragmentSearchBinding
 import com.mustafafidan.itunessearch.feature_search.presentation.search.adapter.ResultsAdapter
 import com.mustafafidan.itunessearch.feature_search.presentation.search.adapter.ResultsLoadingAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.map
 
 
 @AndroidEntryPoint
@@ -35,10 +36,10 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.setupUi()
-        this.setRefreshListener()
         this.setRecyclerAdapter()
         this.updateAdapter()
-        this.addStateListener()
+        this.updateSwipeRefresh()
+        this.updateNoItemLayoutVisibilityStatus()
         this.observeSearchState()
         this.observeRefreshAdapter()
         this.setClearBtnClick()
@@ -50,11 +51,15 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
+    private fun setupUi(){
+        binding.recyclerView.setHasFixedSize(true)
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+    }
+
     private fun observeRefreshAdapter(){
         lifecycleScope.launchWhenStarted {
             searchViewModel.refreshAdapterState.collectLatest {
                 this@SearchFragment.onRefresh()
-                binding.swipeRefreshLayout.isRefreshing = true
             }
         }
     }
@@ -66,11 +71,6 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             }
         }
     }
-    
-    private fun setupUi(){
-        binding.recyclerView.setHasFixedSize(true)
-        binding.swipeRefreshLayout.isRefreshing = true
-    }
 
     private fun setRecyclerAdapter(){
         binding.recyclerView.apply {
@@ -81,23 +81,33 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun updateAdapter(){
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             searchViewModel.flow.collectLatest { pagingData ->
                 resultsAdapter.submitData(pagingData)
             }
         }
     }
 
-    private fun addStateListener(){
-        resultsAdapter.addLoadStateListener { loadState->
-            if (!(loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading)){
-                binding.swipeRefreshLayout.finishRefreshing()
-            }
+    private fun updateSwipeRefresh(){
+        lifecycleScope.launchWhenStarted {
+            resultsAdapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .map { it.refresh is LoadState.Loading }
+                .collectLatest {
+                    binding.swipeRefreshLayout.isRefreshing = it
+                }
         }
     }
 
-    private fun setRefreshListener(){
-        binding.swipeRefreshLayout.setOnRefreshListener(this)
+    private fun updateNoItemLayoutVisibilityStatus(){
+        lifecycleScope.launchWhenStarted {
+            resultsAdapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .map { it.refresh is LoadState.NotLoading && resultsAdapter.itemCount == 0 }
+                .collectLatest {
+                    binding.noItemLayout.root.isVisible = it
+                }
+        }
     }
 
     override fun onRefresh() {

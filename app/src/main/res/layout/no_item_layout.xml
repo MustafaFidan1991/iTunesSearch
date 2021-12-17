@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="state"
+            type="com.mustafafidan.itunessearch.feature_search.presentation.search.SearchState" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="@dimen/no_item_layout_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/no_item_image_size"
+            android:layout_height="@dimen/no_item_image_size"
+            android:tint="@color/colorGrey"
+            app:srcCompat="@drawable/ic_search" />
+
+        <TextView
+            style="@style/NoItemTitleTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/no_item_layout_title" />
+
+        <TextView
+            style="@style/NoItemContentTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/no_item_layout_content"
+            android:gravity="center" />
+
+    </LinearLayout>
+</layout>

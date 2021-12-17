@@ -7,4 +7,6 @@
     <dimen name="filter_btn_height">30dp</dimen>
     <dimen name="filter_btn_text_size">14sp</dimen>
     <dimen name="filter_btn_margin">8dp</dimen>
+    <dimen name="no_item_layout_width">180dp</dimen>
+    <dimen name="no_item_image_size">100dp</dimen>
 </resources>

@@ -8,4 +8,6 @@
     <string name="filter_music">Music</string>
     <string name="filter_apps">Apps</string>
     <string name="filter_books">Books</string>
+    <string name="no_item_layout_title">No result</string>
+    <string name="no_item_layout_content">Try a more general keyword</string>
 </resources>
