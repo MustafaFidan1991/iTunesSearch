@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class SearchState @Inject constructor(){
     val searchTerm = MutableStateFlow("")
     var filterMediaType = MutableStateFlow(FilterMediaType.NONE)
-    val noItemDefaultVisibility = MutableStateFlow(View.VISIBLE)
+    val noItemDefaultVisibility = MutableStateFlow(View.GONE)
 
     fun onFilterBtnCheckedChanged(view : View,mediaType : FilterMediaType) {
         if(view is RadioButton && view.isChecked){

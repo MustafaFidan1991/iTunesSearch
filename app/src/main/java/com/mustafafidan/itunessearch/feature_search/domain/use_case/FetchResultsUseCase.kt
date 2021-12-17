@@ -1,20 +1,15 @@
 package com.mustafafidan.itunessearch.feature_search.domain.use_case
 
 import android.content.Context
-import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
 import androidx.paging.map
 import com.mustafafidan.itunessearch.common.Mapper
 import com.mustafafidan.itunessearch.common.getFormattedDate
 import com.mustafafidan.itunessearch.constants.PAGE_SIZE
-import com.mustafafidan.itunessearch.errorhandling.mapOnData
 import com.mustafafidan.itunessearch.feature_search.data.paging_source.ResultsPagingSource
 import com.mustafafidan.itunessearch.feature_search.domain.model.local.ResultUiModel
-import com.mustafafidan.itunessearch.feature_search.domain.model.local.ResultsUiModel
 import com.mustafafidan.itunessearch.feature_search.domain.model.remote.ResultEntity
-import com.mustafafidan.itunessearch.feature_search.domain.model.remote.ResultResponseEntity
 import com.mustafafidan.itunessearch.feature_search.domain.repository.SearchRepository
 import com.mustafafidan.itunessearch.feature_search.presentation.search.SearchState
 import kotlinx.coroutines.flow.map
@@ -50,7 +45,10 @@ class FetchResultsMapper @Inject constructor(
             },
             name = type.collectionName ?: "",
             date = dateFormatter.provideDate(type.releaseDate),
-            isStreamable = type.isStreamable ?: false
+            isStreamable = type.isStreamable ?: false,
+            description = type.description,
+            artistImageUrl = type.artistViewUrl,
+            artistName = type.artistName
         )
     }
 

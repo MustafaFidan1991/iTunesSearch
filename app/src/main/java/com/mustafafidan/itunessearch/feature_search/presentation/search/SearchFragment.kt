@@ -10,12 +10,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.mustafafidan.itunessearch.common.showSnackBar
 import com.mustafafidan.itunessearch.databinding.FragmentSearchBinding
 import com.mustafafidan.itunessearch.feature_search.presentation.search.adapter.ResultsAdapter
 import com.mustafafidan.itunessearch.feature_search.presentation.search.adapter.ResultsLoadingAdapter
+import com.mustafafidan.itunessearch.feature_search.presentation.search.navigation.SearchNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 
 
@@ -43,6 +46,7 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         this.observeSearchState()
         this.observeRefreshAdapter()
         this.setClearBtnClick()
+        this.updateErrorSnack()
     }
 
     private fun setClearBtnClick(){
@@ -74,7 +78,7 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private fun setRecyclerAdapter(){
         binding.recyclerView.apply {
-            resultsAdapter = ResultsAdapter()
+            resultsAdapter = ResultsAdapter(SearchNavigator(this@SearchFragment))
             val loadingAdapter = ResultsLoadingAdapter(resultsAdapter)
             adapter = resultsAdapter.withLoadStateFooter(footer = loadingAdapter)
         }
@@ -85,6 +89,21 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             searchViewModel.flow.collectLatest { pagingData ->
                 resultsAdapter.submitData(pagingData)
             }
+        }
+    }
+
+    private fun updateErrorSnack(){
+        lifecycleScope.launchWhenStarted {
+            resultsAdapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .filter { it.refresh is LoadState.Error }
+                .collectLatest {
+                    (it.refresh as? LoadState.Error)?.error?.message?.let { message->
+                        if(message.isNotEmpty()){
+                            this@SearchFragment.showSnackBar(message)
+                        }
+                    }
+                }
         }
     }
 

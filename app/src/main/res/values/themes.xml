@@ -59,8 +59,11 @@
 
 
     <style name="NoItemContentTextViewStyle" parent="Base.TextAppearance.AppCompat.Subhead">
-        <item name="android:textColor">@color/colorDarkText</item>
+
     </style>
 
+    <style name="DetailTitleTextViewStyle" parent="Base.TextAppearance.AppCompat.Display1">
+        <item name="android:textStyle">bold</item>
+    </style>
 
 </resources>

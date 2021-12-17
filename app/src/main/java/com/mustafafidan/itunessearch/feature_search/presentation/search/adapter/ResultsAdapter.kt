@@ -7,8 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mustafafidan.itunessearch.databinding.ItemResultBinding
 import com.mustafafidan.itunessearch.feature_search.domain.model.local.ResultUiModel
+import com.mustafafidan.itunessearch.feature_search.presentation.search.navigation.SearchNavigator
+import javax.inject.Inject
 
-class ResultsAdapter : PagingDataAdapter<ResultUiModel, RecyclerView.ViewHolder>(REPO_COMPARATOR) {
+class ResultsAdapter(
+    private val searchNavigator: SearchNavigator
+) : PagingDataAdapter<ResultUiModel, RecyclerView.ViewHolder>(REPO_COMPARATOR) {
 
     companion object {
         private val REPO_COMPARATOR = object : DiffUtil.ItemCallback<ResultUiModel>() {
@@ -29,13 +33,18 @@ class ResultsAdapter : PagingDataAdapter<ResultUiModel, RecyclerView.ViewHolder>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return CharactersViewHolder(ItemResultBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return CharactersViewHolder(ItemResultBinding.inflate(LayoutInflater.from(parent.context), parent, false),searchNavigator)
     }
 
-    class CharactersViewHolder(private val binding : ItemResultBinding) : RecyclerView.ViewHolder(binding.root) {
+    class CharactersViewHolder(private val binding : ItemResultBinding,private val searchNavigator : SearchNavigator) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ResultState?) {
             binding.state = item
+            binding.root.setOnClickListener {
+                item?.let {
+                    searchNavigator.navigateToDetail(item.getDetailDto())
+                }
+            }
         }
 
     }

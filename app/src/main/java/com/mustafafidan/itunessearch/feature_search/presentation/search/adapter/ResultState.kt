@@ -9,6 +9,8 @@ class ResultState(
     private val result : ResultUiModel
 ) {
 
+    fun getBtnVisibility() = if(result.price.isEmpty()) View.INVISIBLE else View.VISIBLE
+
     fun getImageUrl() = result.imageUrl
 
     fun getName() = result.name
@@ -19,4 +21,5 @@ class ResultState(
 
     fun getStreamImageVisibility() = if(result.isStreamable) View.VISIBLE else View.GONE
 
+    fun getDetailDto() = result
 }

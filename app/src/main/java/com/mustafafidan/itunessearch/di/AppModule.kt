@@ -21,7 +21,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object NetworkModule {
+object AppModule {
 
     @Provides
     fun provideContext(@ApplicationContext appContext: Context) : Context{

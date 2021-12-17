@@ -48,6 +48,7 @@ class SearchViewModel @Inject constructor(
     private fun updateSearchTerm(searchTerm : String) {
         if(searchTerm.length < MIN_SEARCH_LENGTH) {
             //TODO clear adapter
+
             return
         }
         this.triggerRefreshAdapter()

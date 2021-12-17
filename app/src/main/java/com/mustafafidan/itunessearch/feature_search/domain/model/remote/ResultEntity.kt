@@ -70,6 +70,8 @@ data class ResultEntity(
     val releaseDate: String,
     @Json(name = "shortDescription")
     val shortDescription: String?,
+    @Json(name = "description")
+    val description: String?,
     @Json(name = "trackCensoredName")
     val trackCensoredName: String?,
     @Json(name = "trackCount")
