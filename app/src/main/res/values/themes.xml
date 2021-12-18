@@ -43,7 +43,7 @@
     </style>
 
     <style name="FilterButtonStyle" parent="TextAppearance.MaterialComponents.Button">
-        <item name="android:textColor">@color/colorGreyText</item>
+        <item name="android:textColor">@color/colorDarkText</item>
         <item name="android:textSize">@dimen/filter_btn_text_size</item>
         <item name="android:background">@drawable/filter_btn_bg</item>
         <item name="android:textAllCaps">false</item>

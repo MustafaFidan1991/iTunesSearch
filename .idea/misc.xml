@@ -9,6 +9,8 @@
         <entry key="app/src/main/res/drawable/circular.xml" value="0.40520833333333334" />
         <entry key="app/src/main/res/drawable/filter_bg.xml" value="0.40520833333333334" />
         <entry key="app/src/main/res/drawable/filter_btn_bg.xml" value="0.40520833333333334" />
+        <entry key="app/src/main/res/drawable/filter_btn_text_color.xml" value="0.40520833333333334" />
+        <entry key="app/src/main/res/drawable/ic_back.xml" value="0.40520833333333334" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.40520833333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3892652423137051" />
         <entry key="app/src/main/res/layout/filter_bar.xml" value="0.3890625" />

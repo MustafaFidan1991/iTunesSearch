@@ -12,6 +12,6 @@ data class ResultUiModel(
     val date : String,
     val isStreamable : Boolean,
     val description : String?,
-    val artistImageUrl : String?,
+    val artistFirstWords : String?,
     val artistName : String?
 ) : Parcelable

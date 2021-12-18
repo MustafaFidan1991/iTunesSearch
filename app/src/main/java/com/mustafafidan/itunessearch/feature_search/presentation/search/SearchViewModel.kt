@@ -3,7 +3,6 @@ package com.mustafafidan.itunessearch.feature_search.presentation.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.mustafafidan.itunessearch.constants.MIN_SEARCH_LENGTH
 import com.mustafafidan.itunessearch.feature_search.domain.use_case.FetchResultsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -40,18 +39,9 @@ class SearchViewModel @Inject constructor(
     private fun listenSearchTerm(){
         viewModelScope.launch {
             _state.value.searchTerm.collectLatest {
-                this@SearchViewModel.updateSearchTerm(it)
+                this@SearchViewModel.triggerRefreshAdapter()
             }
         }
-    }
-
-    private fun updateSearchTerm(searchTerm : String) {
-        if(searchTerm.length < MIN_SEARCH_LENGTH) {
-            //TODO clear adapter
-
-            return
-        }
-        this.triggerRefreshAdapter()
     }
 
     private fun triggerRefreshAdapter() {

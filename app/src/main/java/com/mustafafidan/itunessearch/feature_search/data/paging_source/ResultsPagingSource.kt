@@ -2,6 +2,7 @@ package com.mustafafidan.itunessearch.feature_search.data.paging_source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.mustafafidan.itunessearch.constants.MIN_SEARCH_LENGTH
 import com.mustafafidan.itunessearch.errorhandling.Error
 import com.mustafafidan.itunessearch.errorhandling.Success
 import com.mustafafidan.itunessearch.feature_search.domain.model.remote.ResultEntity
@@ -16,6 +17,13 @@ class ResultsPagingSource(
     override suspend fun load(
         params: LoadParams<Int>
     ): LoadResult<Int, ResultEntity> {
+        if(searchState.searchTerm.value.length < MIN_SEARCH_LENGTH){
+            return LoadResult.Page(
+                data = listOf(),
+                prevKey = null,
+                nextKey = null
+            )
+        }
         return try {
             val oldKey = params.key ?: 0
             when(val result = searchRepository.getResults(searchState.searchTerm.value,searchState.filterMediaType.value.type,oldKey)){

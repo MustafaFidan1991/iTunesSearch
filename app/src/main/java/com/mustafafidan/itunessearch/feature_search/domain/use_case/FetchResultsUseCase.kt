@@ -43,11 +43,11 @@ class FetchResultsMapper @Inject constructor(
             }else {
                 "${type.collectionPrice} ${currencyConverter.getCurrencyIcon(type.currency)}"
             },
-            name = type.collectionName ?: "",
+            name = type.trackName ?: "",
             date = dateFormatter.provideDate(type.releaseDate),
             isStreamable = type.isStreamable ?: false,
             description = type.description,
-            artistImageUrl = type.artistViewUrl,
+            artistFirstWords = "${type.artistName?.split(" ")?.firstOrNull()?.first() ?: ""}${type.artistName?.split(" ")?.getOrNull(1)?.first() ?: ""}",
             artistName = type.artistName
         )
     }

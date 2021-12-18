@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mustafafidan.itunessearch.databinding.ItemResultBinding
 import com.mustafafidan.itunessearch.feature_search.domain.model.local.ResultUiModel
 import com.mustafafidan.itunessearch.feature_search.presentation.search.navigation.SearchNavigator
-import javax.inject.Inject
 
 class ResultsAdapter(
     private val searchNavigator: SearchNavigator
@@ -29,14 +28,14 @@ class ResultsAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as? CharactersViewHolder)?.bind(item = getItemViewState(position))
+        (holder as? ResultViewHolder)?.bind(item = getItemViewState(position))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return CharactersViewHolder(ItemResultBinding.inflate(LayoutInflater.from(parent.context), parent, false),searchNavigator)
+        return ResultViewHolder(ItemResultBinding.inflate(LayoutInflater.from(parent.context), parent, false),searchNavigator)
     }
 
-    class CharactersViewHolder(private val binding : ItemResultBinding,private val searchNavigator : SearchNavigator) : RecyclerView.ViewHolder(binding.root) {
+    class ResultViewHolder(private val binding : ItemResultBinding, private val searchNavigator : SearchNavigator) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ResultState?) {
             binding.state = item
