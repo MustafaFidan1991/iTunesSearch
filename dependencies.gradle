@@ -17,7 +17,10 @@ ext {
     libraries = [
             hilt              : "com.google.dagger:hilt-android:${versions.hiltVersion}",
             hiltExtension     : "androidx.hilt:hilt-*:${versions.hiltExtensionVersion}",
-            coroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutinesVersion}",
+            coroutines        : [
+                    "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutinesVersion}",
+                    "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutinesVersion}",
+            ],
             liveDataKTX       : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycleVersion}",
             multidex          : "androidx.multidex:multidex:${versions.multidexVersion}",
             navigation        : [

@@ -16,10 +16,8 @@ import com.mustafafidan.itunessearch.feature_search.presentation.search.adapter.
 import com.mustafafidan.itunessearch.feature_search.presentation.search.adapter.ResultsLoadingAdapter
 import com.mustafafidan.itunessearch.feature_search.presentation.search.navigation.SearchNavigator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -27,8 +25,8 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private val searchViewModel: SearchViewModel by viewModels()
     private lateinit var binding : FragmentSearchBinding
-    private lateinit var resultsAdapter: ResultsAdapter
 
+    private var resultsAdapter =  ResultsAdapter(SearchNavigator(this@SearchFragment))
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,15 +36,18 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         this.setupUi()
         this.setRecyclerAdapter()
-        this.updateAdapter()
+        this.setClearBtnClick()
+
         this.updateSwipeRefresh()
         this.updateNoItemLayoutVisibilityStatus()
-        this.observeSearchState()
-        this.observeRefreshAdapter()
-        this.setClearBtnClick()
         this.updateErrorSnack()
+        this.updateAdapter()
+
+        this.observeSearchState()
+        this.observeSearchAdapterUpdate()
     }
 
     private fun setClearBtnClick(){
@@ -60,19 +61,20 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.swipeRefreshLayout.setOnRefreshListener(this)
     }
 
-    private fun observeRefreshAdapter(){
-        lifecycleScope.launchWhenStarted {
-            searchViewModel.refreshAdapterState.collectLatest {
-                this@SearchFragment.onRefresh()
+    private fun observeSearchState(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            searchViewModel.state.collectLatest {
+                binding.state = it
             }
         }
     }
 
-    private fun observeSearchState(){
-        lifecycleScope.launchWhenStarted {
-            searchViewModel.state.collectLatest {
-                binding.state = it
-            }
+    private fun observeSearchAdapterUpdate(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            searchViewModel.refreshAdapterState
+                .collectLatest {
+                    this@SearchFragment.onRefresh()
+                }
         }
     }
 
@@ -85,15 +87,15 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun updateAdapter(){
-        lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launch {
             searchViewModel.flow.collectLatest { pagingData ->
-                resultsAdapter.submitData(pagingData)
+                resultsAdapter.submitData(viewLifecycleOwner.lifecycle,pagingData)
             }
         }
     }
 
     private fun updateErrorSnack(){
-        lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launch {
             resultsAdapter.loadStateFlow
                 .distinctUntilChangedBy { it.refresh }
                 .filter { it.refresh is LoadState.Error }
@@ -108,7 +110,7 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun updateSwipeRefresh(){
-        lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launch {
             resultsAdapter.loadStateFlow
                 .distinctUntilChangedBy { it.refresh }
                 .map { it.refresh is LoadState.Loading }
@@ -119,10 +121,11 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun updateNoItemLayoutVisibilityStatus(){
-        lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launch {
             resultsAdapter.loadStateFlow
                 .distinctUntilChangedBy { it.refresh }
-                .map { it.refresh is LoadState.NotLoading && resultsAdapter.itemCount == 0 }
+                .filter { it.refresh is LoadState.NotLoading }
+                .map { resultsAdapter.itemCount == 0 }
                 .collectLatest {
                     binding.noItemLayout.root.isVisible = it
                 }

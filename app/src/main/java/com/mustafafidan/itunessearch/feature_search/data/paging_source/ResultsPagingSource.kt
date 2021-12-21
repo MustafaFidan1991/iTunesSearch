@@ -26,7 +26,8 @@ class ResultsPagingSource(
         }
         return try {
             val oldKey = params.key ?: 0
-            when(val result = searchRepository.getResults(searchState.searchTerm.value,searchState.filterMediaType.value.type,oldKey)){
+            val result = searchRepository.getResults(searchState.searchTerm.value,searchState.filterMediaType.value.type,oldKey)
+            when(result){
                 is Success -> {
                     val newKey = (result.successData.resultCount ?: 0) + oldKey
                     val nextKey : Int? = if(oldKey == newKey) null else newKey

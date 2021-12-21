@@ -37,7 +37,7 @@ class FetchResultsMapper @Inject constructor(
     override fun mapFromResponse(type: ResultEntity): ResultUiModel {
         return ResultUiModel(
             id = type.trackId,
-            imageUrl = type.artworkUrl100,
+            imageUrl = type.artworkUrl600 ?: type.artworkUrl512 ?: type.artworkUrl100,
             price = if(type.collectionPrice == null){
                 ""
             }else {
@@ -47,7 +47,7 @@ class FetchResultsMapper @Inject constructor(
             date = dateFormatter.provideDate(type.releaseDate),
             isStreamable = type.isStreamable ?: false,
             description = type.description,
-            artistFirstWords = "${type.artistName?.split(" ")?.firstOrNull()?.first() ?: ""}${type.artistName?.split(" ")?.getOrNull(1)?.first() ?: ""}",
+            artistFirstWords = if(type.artistName.isNullOrEmpty()) "" else "${type.artistName?.split(" ")?.firstOrNull()?.first() ?: ""}${type.artistName?.split(" ")?.getOrNull(1)?.first() ?: ""}",
             artistName = type.artistName
         )
     }
@@ -62,8 +62,6 @@ class CurrencyConverter @Inject constructor() {
         }
 }
 
-class DateFormatter @Inject constructor(
-    private val context: Context
-) {
-    fun provideDate(modifiedDate : String) : String = modifiedDate.getFormattedDate(context)
+class DateFormatter @Inject constructor() {
+    fun provideDate(rawDate : String) : String = rawDate.getFormattedDate()
 }

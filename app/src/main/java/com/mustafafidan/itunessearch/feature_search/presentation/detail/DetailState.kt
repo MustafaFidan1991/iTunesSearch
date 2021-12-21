@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.findFragment
+import androidx.navigation.fragment.findNavController
 import com.mustafafidan.itunessearch.feature_search.domain.model.local.ResultUiModel
 
 class DetailState(
@@ -34,6 +35,6 @@ class DetailState(
     }
 
     fun onBackClicked(view : View){
-        view.findFragment<DetailFragment>().requireActivity().onBackPressed()
+        view.findFragment<DetailFragment>().findNavController().popBackStack()
     }
 }
