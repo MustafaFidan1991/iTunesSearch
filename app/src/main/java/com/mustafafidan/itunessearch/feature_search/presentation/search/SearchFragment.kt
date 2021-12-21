@@ -127,6 +127,7 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 .filter { it.refresh is LoadState.NotLoading }
                 .map { resultsAdapter.itemCount == 0 }
                 .collectLatest {
+                    binding.state?.noItemDefaultVisibility = if(it) View.VISIBLE else View.GONE
                     binding.noItemLayout.root.isVisible = it
                 }
         }

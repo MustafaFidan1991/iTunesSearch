@@ -36,7 +36,7 @@ class FetchResultsMapper @Inject constructor(
 ) : Mapper<ResultEntity, ResultUiModel> {
     override fun mapFromResponse(type: ResultEntity): ResultUiModel {
         return ResultUiModel(
-            id = type.trackId,
+            id = type.trackId ?: type.collectionId ?: 0,
             imageUrl = type.artworkUrl600 ?: type.artworkUrl512 ?: type.artworkUrl100,
             price = if(type.collectionPrice == null){
                 ""
@@ -47,7 +47,7 @@ class FetchResultsMapper @Inject constructor(
             date = dateFormatter.provideDate(type.releaseDate),
             isStreamable = type.isStreamable ?: false,
             description = type.description,
-            artistFirstWords = if(type.artistName.isNullOrEmpty()) "" else "${type.artistName?.split(" ")?.firstOrNull()?.first() ?: ""}${type.artistName?.split(" ")?.getOrNull(1)?.first() ?: ""}",
+            artistFirstWords = if(type.artistName.isNullOrEmpty()) "" else "${type.artistName.split(" ").firstOrNull()?.first() ?: ""}${type.artistName.split(" ").getOrNull(1)?.first() ?: ""}",
             artistName = type.artistName
         )
     }

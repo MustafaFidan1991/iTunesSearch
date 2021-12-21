@@ -7,7 +7,9 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ResultEntity(
     @Json(name = "trackId")
-    val trackId: Int,
+    val trackId: Int?,
+    @Json(name = "collectionId")
+    val collectionId: Int?,
     @Json(name = "artworkUrl100")
     val artworkUrl100: String,
     @Json(name = "collectionPrice")

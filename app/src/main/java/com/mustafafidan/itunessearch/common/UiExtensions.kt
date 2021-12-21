@@ -15,6 +15,6 @@ fun Fragment.showSnackBar(message : String){
     Snackbar.make(
         requireView(),
         message,
-        Snackbar.LENGTH_INDEFINITE
+        Snackbar.LENGTH_SHORT
     ).show()
 }

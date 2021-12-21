@@ -16,7 +16,7 @@ class FetchResultsMapperTest{
 
     @Test
     fun `mapper should map ResultEntity to ResultUi`() {
-        val entity = ResultEntity(1,"",0.0,"","","","","",false,"","")
+        val entity = ResultEntity(1,1,"",0.0,"","","","","",false,"","")
 
         val resultUiModel = fetchResultsMapper.mapFromResponse(entity)
 

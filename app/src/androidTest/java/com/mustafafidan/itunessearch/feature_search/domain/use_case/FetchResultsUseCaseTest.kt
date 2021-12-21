@@ -55,7 +55,7 @@ class FetchResultsUseCaseTest{
     fun fetchResultUseCaseShouldMapRemoteData() =
         runTest {
             val list = (1..30).map {
-                ResultEntity(it,"",0.0,"","","","","",false,"","")
+                ResultEntity(it,1,"",0.0,"","","","","",false,"","")
             }
 
             val successResult = Success(ResultResponseEntity(30, list))
@@ -64,7 +64,7 @@ class FetchResultsUseCaseTest{
             val differ = AsyncPagingDataDiffer(
                 diffCallback = ResultUiModelDiffCallback(),
                 updateCallback = ListCallback(),
-                workerDispatcher = Dispatchers.IO
+                workerDispatcher = Dispatchers.Main
             )
             val job = this.launch{
                 useCase().collectLatest {
