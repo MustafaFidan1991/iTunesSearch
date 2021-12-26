@@ -2,6 +2,7 @@ package com.mustafafidan.itunessearch
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

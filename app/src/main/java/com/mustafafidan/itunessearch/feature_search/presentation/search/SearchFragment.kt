@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.mustafafidan.itunessearch.common.collectLatestLifecycleFlow
 import com.mustafafidan.itunessearch.common.showSnackBar
 import com.mustafafidan.itunessearch.databinding.FragmentSearchBinding
 import com.mustafafidan.itunessearch.feature_search.presentation.search.adapter.ResultsAdapter
@@ -17,7 +17,6 @@ import com.mustafafidan.itunessearch.feature_search.presentation.search.adapter.
 import com.mustafafidan.itunessearch.feature_search.presentation.search.navigation.SearchNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -62,19 +61,14 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun observeSearchState(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            searchViewModel.state.collectLatest {
-                binding.state = it
-            }
+        collectLatestLifecycleFlow(searchViewModel.state){
+            binding.state = it
         }
     }
 
     private fun observeSearchAdapterUpdate(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            searchViewModel.refreshAdapterState
-                .collectLatest {
-                    this@SearchFragment.onRefresh()
-                }
+        collectLatestLifecycleFlow(searchViewModel.refreshAdapterState){
+            this@SearchFragment.onRefresh()
         }
     }
 
@@ -87,50 +81,39 @@ class SearchFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun updateAdapter(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            searchViewModel.flow.collectLatest { pagingData ->
-                resultsAdapter.submitData(viewLifecycleOwner.lifecycle,pagingData)
-            }
+        collectLatestLifecycleFlow(searchViewModel.flow){ pagingData->
+            resultsAdapter.submitData(viewLifecycleOwner.lifecycle,pagingData)
         }
     }
 
     private fun updateErrorSnack(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            resultsAdapter.loadStateFlow
-                .distinctUntilChangedBy { it.refresh }
-                .filter { it.refresh is LoadState.Error }
-                .collectLatest {
-                    (it.refresh as? LoadState.Error)?.error?.message?.let { message->
-                        if(message.isNotEmpty()){
-                            this@SearchFragment.showSnackBar(message)
-                        }
-                    }
+        collectLatestLifecycleFlow( resultsAdapter.loadStateFlow
+            .distinctUntilChangedBy { it.refresh }
+            .filter { it.refresh is LoadState.Error }) {
+            (it.refresh as? LoadState.Error)?.error?.message?.let { message->
+                if(message.isNotEmpty()){
+                    this@SearchFragment.showSnackBar(message)
                 }
+            }
         }
     }
 
     private fun updateSwipeRefresh(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            resultsAdapter.loadStateFlow
-                .distinctUntilChangedBy { it.refresh }
-                .map { it.refresh is LoadState.Loading }
-                .collectLatest {
-                    binding.swipeRefreshLayout.isRefreshing = it
-                }
+        collectLatestLifecycleFlow( resultsAdapter.loadStateFlow
+            .distinctUntilChangedBy { it.refresh }
+            .map { it.refresh is LoadState.Loading }) {
+            binding.swipeRefreshLayout.isRefreshing = it
         }
     }
 
     private fun updateNoItemLayoutVisibilityStatus(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            resultsAdapter.loadStateFlow
+        collectLatestLifecycleFlow(resultsAdapter.loadStateFlow
                 .distinctUntilChangedBy { it.refresh }
                 .filter { it.refresh is LoadState.NotLoading }
-                .map { resultsAdapter.itemCount == 0 }
-                .collectLatest {
+                .map { resultsAdapter.itemCount == 0 }) {
                     binding.state?.noItemDefaultVisibility = if(it) View.VISIBLE else View.GONE
                     binding.noItemLayout.root.isVisible = it
                 }
-        }
     }
 
     override fun onRefresh() {

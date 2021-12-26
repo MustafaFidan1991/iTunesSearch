@@ -1,6 +1,5 @@
 package com.mustafafidan.itunessearch.feature_search.domain.use_case
 
-import android.content.Context
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.map

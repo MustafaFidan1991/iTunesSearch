@@ -21,7 +21,10 @@ ext {
                     "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutinesVersion}",
                     "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutinesVersion}",
             ],
-            liveDataKTX       : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycleVersion}",
+            liveDataKTX       : [
+                    "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycleVersion}",
+                    "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycleVersion}"
+            ],
             multidex          : "androidx.multidex:multidex:${versions.multidexVersion}",
             navigation        : [
                     "androidx.navigation:navigation-fragment-ktx:$nav_version",
